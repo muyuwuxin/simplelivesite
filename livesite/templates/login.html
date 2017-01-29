@@ -1,0 +1,34 @@
+<html>
+<head>
+    <title>Login</title>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+   
+    function register() {
+        window.location.href = '/register'
+    }
+    function forget(){
+        window.location.href = '/password_reset'
+    }
+</script>
+</head>
+<body>
+    <h1>Login</h1>
+
+    {% for item in error %}
+        <p style="color:red;">{{item}}</p>
+    {% endfor %}
+            
+    <form action="" method="post">
+        <table>
+         {% csrf_token %}
+            {{ form.as_table }}
+        </table>
+        
+        <input type="submit" value="Login">
+        <input type="button" value="Register" onclick="register()">
+         <input type="button" value="Forget" onclick="forget()">
+        
+    </form>
+</body>
+</html>
