@@ -28,3 +28,11 @@ class ApplyForm(forms.Form):
     id_card = forms.CharField(max_length=30)
     title  = forms.CharField(max_length=30)
     describe =  forms.CharField(max_length=200)
+
+class UpdateLiveInfoForm(forms.Form):
+    title  = forms.CharField(max_length=30)
+    describe =  forms.CharField(max_length=200)
+    SWITCH = (
+        (u'close', u'close'),
+        (u'open', u'open'))
+    switch = forms.ChoiceField(choices=SWITCH) 

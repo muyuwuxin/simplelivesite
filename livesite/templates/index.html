@@ -8,8 +8,9 @@
    {% if request.user.is_authenticated %}
    <h1>Welcome {{user}}!</h1>
    <h1><a href="/logout">Logout</a> </h1>
-   <h1><a href="/changepassword/{{user}}">ChangePassword</h1>
+   <h1><a href="/changepassword/{{user}}">Change Password</h1>
    <h1><a href="/apply">Apply</h1>
+   <h1><a href="/updateliveinfo">Update Live Info</h1>
   {% else %}
 
       <h1><a href="/login">Login</a> </h1>

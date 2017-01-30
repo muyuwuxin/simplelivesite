@@ -1,6 +1,6 @@
 # coding:utf-8
 from django.shortcuts import render_to_response,render
-from .forms import RegisterForm,LoginForm,ChangepwdForm,ApplyForm
+from .forms import RegisterForm,LoginForm,ChangepwdForm,ApplyForm,UpdateLiveInfoForm
 from django.contrib.auth import authenticate,login as auth_login,logout as auth_logout
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -33,14 +33,17 @@ def register(request):
             password = data['password']
             password2 = data['password2']
             if not User.objects.all().filter(username=username):
-                if form.pwd_validate(password, password2):
-                    user = User.objects.create_user(username, email, password)
-                    user.save()
-                    login_validate(request,username,password)
-                    UserProfile.objects.create(user = user)
-                    return HttpResponseRedirect('/index/')
+                if not User.objects.all().filter(email=email):
+                    if form.pwd_validate(password, password2):
+                        user = User.objects.create_user(username, email, password)
+                        user.save()
+                        login_validate(request,username,password)
+                        UserProfile.objects.create(user = user)
+                        return HttpResponseRedirect('/index/')
+                    else:
+                        error.append('Please input the same password')
                 else:
-                    error.append('Please input the same password')
+                    error.append('The email has existed,please use forget password')
             else:
                 error.append('The username has existed,please change your username')
     else:
@@ -109,6 +112,8 @@ def apply(request):
                 elif user_profile.status == 'apply':
                     error.append('You have already apply,you cant apply again, please wait')
                     #return HttpResponseRedirect('/applydone/')
+                elif user_profile.status == 'ok':
+                    error.append('You have ')
             else:
                 error.append('There may have some trouble of user')
     else:  
@@ -141,17 +146,17 @@ def playlistjson(request):
             response_data['status'] = 'failed'
     return HttpResponse(json.dumps(response_data), content_type="application/json")  
 
-"""
-def playlistjson(request):
-    user_profile_set = UserProfile.objects.filter(status = 'ok').filter(switch = 'open')
-    response_data = {}  
-    if user_profile_set:
-        response_data = {}  
-        for userprofile in user_profile_set:
-            response_data['title'] = userprofile.title
-            response_data['name'] = userprofile.user.username
-            response_data['describe'] = userprofile.describe
-            response_data['play_url'] = userprofile.play_url
-            response_data['websocket_url'] = userprofile.websocket_url
-    return HttpResponse(json.dumps(response_data), content_type="application/json")  
-"""
+def updateliveinfo(request):
+    error = []  
+    if request.method == 'POST':
+        form = UpdateLiveInfoForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data 
+            current_user = request.user
+            user_profile_set = UserProfile.objects.filter(user = current_user)
+            if user_profile_set[0]:
+                user_profile_set.update(title=data['title'],describe = data['describe'],switch = data['switch'])    
+                return HttpResponse("update done")
+    else:  
+        form = UpdateLiveInfoForm()  
+    return render_to_response('updateliveinfo.html',{'form':form,'error':error})  

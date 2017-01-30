@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^apply/$', apply),
     url(r'^applydone/$', applydone),
     url(r'^playlistjson/$', playlistjson),
+    url(r'^updateliveinfo/$',updateliveinfo),
     
 
     

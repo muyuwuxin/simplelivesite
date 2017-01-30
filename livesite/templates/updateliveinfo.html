@@ -1,0 +1,22 @@
+<html>
+<head>
+    <title>Update Live Info</title>
+   <meta charset="utf-8">
+</head>
+<body>
+    <h1>Update Live Info</h1>
+    {% for item in error %}
+        <p style="color:red;">{{item}}</p>
+    {% endfor %}
+            
+    <form action="" method="post">
+             {% csrf_token %}
+
+        <table>
+            {{ form.as_table }}
+        </table>
+        
+        <input type="submit" value="Enter">
+    </form>
+</body>
+</html>

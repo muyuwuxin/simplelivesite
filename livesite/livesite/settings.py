@@ -127,10 +127,10 @@ STATIC_URL = '/static/'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_PORT = 25      
 EMAIL_HOST = 'smtp.163.com'
-EMAIL_HOST_USER = '#############@163.com'
-EMAIL_HOST_PASSWORD = ''
-DEFAULT_FROM_EMAIL = '#############@163.com'
-SERVER_EMAIL = '#############@163.com'
+EMAIL_HOST_USER = '###########@163.com'
+EMAIL_HOST_PASSWORD = '###########'
+DEFAULT_FROM_EMAIL = '###########@163.com'
+SERVER_EMAIL = '###########@163.com'
 EMAIL_USE_TLS = False
 
 
